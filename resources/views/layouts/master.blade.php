@@ -32,9 +32,13 @@
 
     @include('partials.menu')
 
-    @include('partials.header')
-
+    @if(Route::is('show') == true)
     @yield('content')
+
+    @else
+    @include('partials.header')
+    @yield('content')
+    @endif
 
     @include('partials.secondary_menu')
     <hr>
