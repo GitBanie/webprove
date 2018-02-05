@@ -11,10 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
+//Route pour la page d'auth
 Route::get('/home', 'HomeController@index')->name('home');
+
+# Création des routes du front
+
+Route::get('/', "FrontController@index")->name('index');
+
+Route::get('post/{id}', "FrontController@show")->name('show');
+
+Route::get('/stage', "FrontController@stage")->name('stage');
+
+Route::get('/formation', "FrontController@formation")->name('formation');
+
+Route::get('/contact', "FrontController@contact")->name('contact');
