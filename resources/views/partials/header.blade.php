@@ -7,7 +7,7 @@
                 <div class="site-heading">
                     <h1>{{$title}}</h1>
                     <hr class="small">
-                    <span class="subheading">{{$description}}</span>
+                    <span class="subheading">{!!$description!!}</span>
                 </div>
             </div>
         </div>

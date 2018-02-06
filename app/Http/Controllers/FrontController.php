@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Post;
+use Illuminate\Support\Facades\Input;
 
 class FrontController extends Controller
 {
@@ -52,4 +53,25 @@ class FrontController extends Controller
 
     return view('front.contact', compact('title' , 'description' , 'img'));
   }
+
+  public function search()
+  {
+    $search = Input::get ( 'search' );
+    $post = Post::where('title','LIKE','%'.$search.'%')->orWhere('description','LIKE','%'.$search.'%')->paginate(5);
+
+    $title = "Result";
+    $img = 'img/search-bg.jpg';
+
+    if(count($post) > 0){
+      $description = "The Search results for your query : <b> $search </b>";
+      return view('front.search', compact('title', 'description', 'img'))->withDetails($post);
+    }
+    else{
+      $description = 'No Details found. Try to search again !';
+      return view ('front.search', compact('title', 'description', 'img'));
+    }
+
+    // return view ('front.search', compact('title', 'description', 'img'));
+  }
+
 }
