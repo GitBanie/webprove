@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
 
 use App\Post;
 use Illuminate\Support\Facades\Input;
@@ -45,15 +46,6 @@ class FrontController extends Controller
     return view('front.formation' , compact('formations', 'title' , 'description' , 'img'));
   }
 
-  public function contact()
-  {
-    $title = 'Contact';
-    $description = 'Nous contacter';
-    $img = 'img/contact-bg.jpg';
-
-    return view('front.contact', compact('title' , 'description' , 'img'));
-  }
-
   public function search()
   {
     $search = Input::get ( 'search' );
@@ -70,8 +62,5 @@ class FrontController extends Controller
       $description = 'No Details found. Try to search again !';
       return view ('front.search', compact('title', 'description', 'img'));
     }
-
-    // return view ('front.search', compact('title', 'description', 'img'));
   }
-
 }

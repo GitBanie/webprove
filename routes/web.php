@@ -30,6 +30,8 @@ Route::get('/stage', "FrontController@stage")->name('stage');
 
 Route::get('/formation', "FrontController@formation")->name('formation');
 
-Route::get('/contact', "FrontController@contact")->name('contact');
+Route::get('/contact', "ContactController@contact")->name('contact');
 
-Route::post('/search', "FrontController@search")->name('search');
+Route::post('/contact',  'ContactController@mailToAdmin')->name('contactAdmin');
+
+Route::any('/search', "FrontController@search")->name('search');
