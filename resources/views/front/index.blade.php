@@ -16,7 +16,9 @@
                         </h2>
                     </a>
                     <div class="row" style="padding-top:2rem;">
+                      @if (isset($post->picture))  
                       <img class="rounded col-md-5" src="{{asset('images/'.$post->picture->link)}}" alt="{{$post->picture->title}}" title="{{$post->picture->title}}">
+                      @endif
                       <p class="col-md-7">{{$post->description}}</p>
                     </div>
                     <p class="post-meta" style="padding-top:1rem;">Le {{$post->created_at}}</p>
@@ -34,7 +36,7 @@
               </ul> --}}
 
           </div>
-          
+
           <div class="search col-md-4">
             @include('partials.search')
 

@@ -21,7 +21,10 @@
           <div class="col-md-12">
                 <div class="post-preview">
                     <div class="row" style="padding-top:2rem;">
+                      @isset($post->picture)
+
                       <img class="rounded col-md-5" src="{{asset('images/'.$post->picture->link)}}" alt="{{$post->picture->title}}" title="{{$post->picture->title}}">
+                    @endisset
                       <p class="col-md-7">{{$post->description}}</p>
                     </div>
                     <div class="row">

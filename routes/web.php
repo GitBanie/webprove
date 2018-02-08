@@ -35,3 +35,5 @@ Route::get('/contact', "ContactController@contact")->name('contact');
 Route::post('/contact',  'ContactController@mailToAdmin')->name('contactAdmin');
 
 Route::any('/search', "FrontController@search")->name('search');
+
+Route::resource('admin/post', 'PostController')->middleware('auth');

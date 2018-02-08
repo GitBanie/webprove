@@ -17,7 +17,10 @@
                         </h2>
                     </a>
                     <div class="row" style="padding-top:2rem;">
+                      @isset($formation->picture)
+
                       <img class="rounded col-md-5" src="{{asset('images/'.$formation->picture->link)}}" alt="{{$formation->picture->title}}" title="{{$formation->picture->title}}">
+                      @endisset
                       <p class="col-md-7">{{$formation->description}}</p>
                     </div>
                     <p class="post-meta" style="padding-top:1rem;">Le {{$formation->created_at}}</p>

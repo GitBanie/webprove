@@ -13,7 +13,7 @@ class FrontController extends Controller
   public function index()
   {
     // $book = Book::with('picture', 'authors', 'score')->paginate(5);
-    $posts = Post::orderBy('id', 'desc')->take(2)->get();
+    $posts = Post::orderBy('id', 'desc')->published()->take(2)->get();
     $title = 'Webprove';
     $description = 'Improve your web knowledge';
     $img = 'img/home-bg.jpg';
@@ -28,7 +28,7 @@ class FrontController extends Controller
 
   public function stage()
   {
-    $stages = Post::where('post_type', 'stage')->paginate(5);
+    $stages = Post::where('post_type', 'stage')->published()->paginate(5);
     $title = 'Stage';
     $description = 'Tous nos stages';
     $img = 'img/about-bg.jpg';
@@ -38,7 +38,7 @@ class FrontController extends Controller
 
   public function formation()
   {
-    $formations = Post::where('post_type', 'formation')->paginate(5);
+    $formations = Post::where('post_type', 'formation')->published()->paginate(5);
     $title = 'Formation';
     $description = 'Tous nos formations';
     $img = 'img/post-bg.jpg';
