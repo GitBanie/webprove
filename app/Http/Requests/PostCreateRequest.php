@@ -31,6 +31,7 @@ class PostCreateRequest extends FormRequest
             'started_at'  => 'required|date|date_format:Y-m-d H:i:s|before:ended_at',
             'ended_at'    => 'required|date|date_format:Y-m-d H:i:s|after:started_at',
             'price'       => 'required|regex:/^\d*(\.\d{1,2})?$/',
+            'students_max' => 'required|regex:/^\d*?$/',
             'status'      => 'required|in:published,unpublished',
             'picture'     => 'image',
         ];

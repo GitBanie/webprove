@@ -72,8 +72,8 @@
     {{-- Datetimepicker --}}
     <script src="{{asset('vendor/date-picker/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('vendor/date-picker/locales/bootstrap-datetimepicker.fr.js')}}" charset="UTF-8"></script>
-    <script src="{{asset('vendor/date-picker/custom.js')}}"</script>
-
+    <script src="{{asset('vendor/date-picker/custom.js')}}"></script>
+    <script src="{{asset('js/confirm.js')}}"></script>
 
 </body>
 

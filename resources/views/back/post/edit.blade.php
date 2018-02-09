@@ -2,22 +2,26 @@
 
 @section('content')
 
+
+
   <div class="container">
       <div class="row">
           <div class="col-md-9 col-md-offset-1">
               <div class="panel panel-default">
-                  <div class="panel-heading">New Post</div>
+                  <div class="panel-heading">Update</div>
 
                   <div class="panel-body">
-                      <form class="form-horizontal" method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
+                      <form class="form-horizontal" method="POST" action="{{ route('post.update', $post->id) }}" enctype="multipart/form-data">
                           {{ csrf_field() }}
+                          {{ method_field('PUT') }}
 
                           {{-- Titre --}}
                           <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                               <label for="title" class="col-md-4 control-label">Titre</label>
 
                               <div class="col-md-6">
-                                  <input id="title" type="text" class="form-control" name="title" value="{{old('title')}}" required>
+                                  <input id="title" type="text" class="form-control" name="title"
+                                   @if (!null == (old('title'))) value="{{old('title')}}" @else value="{{$post->title}}" @endif required>
                               </div>
                               @if ($errors->has('title'))
                                   <span class="help-block text-center">
@@ -32,10 +36,20 @@
 
                               <div class="col-md-6">
                                 <label class="radio-inline">
-                                    <input type="radio" name="post_type" id="optionsRadiosInline1" value="stage" @if(old('post_type') == 'stage') checked @endif> Stage
+                                    <input type="radio" name="post_type" id="optionsRadiosInline1" value="stage" @if(!null == (old('post_type')) && old('post_type') == 'stage')
+                                      checked
+                                    @elseif ($post->post_type == 'stage') checked
+                                    @else
+                                    @endif
+                                    > Stage
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="post_type" id="optionsRadiosInline2" value="formation" @if(old('post_type') == 'formation') checked @endif> Formation
+                                    <input type="radio" name="post_type" id="optionsRadiosInline1" value="stage" @if(!null == (old('post_type')) && old('post_type') == 'formation')
+                                      checked
+                                    @elseif ($post->post_type == 'formation') checked
+                                    @else
+                                    @endif
+                                    > Formation
                                 </label>
                               </div>
                               @if ($errors->has('status'))
@@ -49,24 +63,27 @@
                           <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                               <label for="category_id" class="col-md-4 control-label">Catégorie</label>
                               <div class="col-md-6">
-                                <select name="category_id" class="form-control" id="category">
-                                  @forelse($categories as $key => $value)
-                                  @if (Input::old('category_id') == $key)
-                                  <option value="{{ $key }}" selected>{{ ucfirst($value) }}</option>
-                                  @else
-                                  <option value="{{$key}}" >{{ucfirst($value)}}</option>
-                                  @endif
-                                  @empty
-                                  <p>Aucune catégorie</p>
-                                  @endforelse
+                                <select name="category_id" class="form-control" id="category_id">
+                                  @if(!null == (old('category_id')))
+                                    @forelse($categories as $id => $name)
+                                    <option value="{{$id}}" @if(old('category_id') == $id) selected @endif>{{$name}}</option>
+                                    @empty
+                                    @endforelse
+                                @else
+
+                                  @forelse($categories as $id => $name)
+                                        <option value="{{$id}}" @if((old('category_id') == $id) || ($post->category->id == $id)) selected @endif>{{$name}}</option>
+                                        @empty
+                                        @endforelse
+
+                                         @endif
                                 </select>
                               </div>
-
-                                @if ($errors->has('category_id'))
-                                    <span class="help-block text-center">
-                                        <strong>{{ $errors->first('category_id') }}</strong>
-                                    </span>
-                                @endif
+                              @if ($errors->has('category_id'))
+                                  <span class="help-block text-center">
+                                      <strong>{{ $errors->first('category_id') }}</strong>
+                                  </span>
+                              @endif
                           </div>
 
                           {{-- Description --}}
@@ -74,7 +91,9 @@
                               <label for="description" class="col-md-4 control-label">Description</label>
 
                               <div class="col-md-6">
-                                  <textarea name="description" class="form-control" rows="2">{{old('description')}}</textarea>
+                                  <textarea name="description" class="form-control" rows="2">@if(!null==(old('description'))){{old('description')}}
+                                  @else{{$post->description}}
+                                  @endif</textarea>
                               </div>
                               @if ($errors->has('description'))
                                   <span class="help-block text-center">
@@ -87,7 +106,13 @@
                           <div class="form-group">
                               <label for="started_at" class="col-md-4 control-label">Date de début</label>
                               <div class="input-group date form_datetime col-md-6" data-date="2018-01-1T00:00:00Z" data-date-format="yyyy-mm-dd hh:ii:ss" data-link-field="started_at" style="padding:0 15px 0 15px;">
-                                  <input class="form-control" size="16" type="text" value="{{old('started_at')}}" readonly style="background-color:#fff" name="started_at">
+                                  <input class="form-control" size="16" type="text"
+                                  @if (!null == old('started_at'))
+                                    value="{{old('started_at')}}"
+                                  @else
+                                    value="{{$post->started_at}}"
+                                  @endif
+                                  readonly style="background-color:#fff" name="started_at">
                                   <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-remove"></span>
                                   </span>
@@ -107,7 +132,13 @@
                           <div class="form-group">
                               <label for="ended_at" class="col-md-4 control-label">Date de fin</label>
                               <div class="input-group date form_datetime col-md-6" data-date="2018-01-1T00:00:00Z" data-date-format="yyyy-mm-dd hh:ii:ss" data-link-field="ended_at" style="padding:0 15px 0 15px;">
-                                  <input class="form-control" size="16" type="text" value="{{old('ended_at')}}" readonly style="background-color:#fff" name="ended_at">
+                                  <input class="form-control" size="16" type="text"
+                                  @if (!null == old('ended_at'))
+                                    value="{{old('ended_at')}}"
+                                  @else
+                                    value="{{$post->ended_at}}"
+                                  @endif
+                                   readonly style="background-color:#fff" name="ended_at">
                                   <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-remove"></span>
                                   </span>
@@ -128,7 +159,13 @@
                               <label for="price" class="col-md-4 control-label">Prix</label>
 
                               <div class="col-md-6 form-group input-group" style="padding:0 15px 0 15px;">
-                                  <input id="price" type="number" class="form-control" name="price" value="{{old('price')}}" required step="any" min="1">
+                                  <input id="price" type="number" step="any" min="1" class="form-control" name="price"
+                                  @if (!null == old('price'))
+                                    value="{{old('price')}}"
+                                  @else
+                                    value="{{$post->price}}"
+                                  @endif
+                                   required>
                                   <span class="input-group-addon"><i class="fa fa-eur"></i></span>
                               </div>
                               @if ($errors->has('price'))
@@ -143,7 +180,13 @@
                               <label for="students_max" class="col-md-4 control-label">Nombre d'élèves maximum</label>
 
                               <div class="col-md-6">
-                                  <input id="students_max" type="number" class="form-control" name="students_max" value="{{old('students_max')}}" min="1" required>
+                                  <input id="students_max" type="number" class="form-control" name="students_max" min="0"
+                                  @if (!null == old('students_max'))
+                                    value="{{old('students_max')}}"
+                                  @else
+                                    value="{{$post->students_max}}"
+                                  @endif
+                                   required>
                               </div>
                               @if ($errors->has('students_max'))
                                   <span class="help-block text-center">
@@ -158,19 +201,36 @@
 
                               <div class="col-md-6">
                                 <label class="radio-inline">
-                                    <input type="radio" name="status" id="optionsRadiosInline1" value="published" @if(old('status') == 'published') checked @endif> Published
+                                    <input type="radio" name="status" id="optionsRadiosInline1" value="published" @if(!null == (old('status')) && old('status') == 'published')
+                                      checked
+                                    @elseif ($post->status == 'published') checked
+                                    @else
+                                    @endif>
+                                       Published
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="status" id="optionsRadiosInline2" value="unpublished" @if(old('status') == 'unpublished') checked @endif @if(null == (old('status')))checked @endif> Unpublished
+                                    <input type="radio" name="status" id="optionsRadiosInline2" value="unpublished" @if(!null == (old('status')) && old('status') == 'unpublished')
+                                      checked
+                                    @elseif ($post->status == 'unpublished') checked
+                                    @else
+                                    @endif>
+                                       Unpublished
                                 </label>
                               </div>
-                              @if ($errors->has('status'))
-                                  <span class="help-block text-center">
-                                      <strong>{{ $errors->first('status') }}</strong>
-                                  </span>
-                              @endif
-                          </div>
 
+                                @if ($errors->has('status'))
+                                    <span class="help-block text-center">
+                                        <strong>{{ $errors->first('status') }}</strong>
+                                    </span>
+                                @endif
+                          </div>
+                          <div class="row">
+                            <div class="img col-md-2 col-md-offset-4">
+                              @if (isset($post->picture))
+                                <img  src="{{asset('images/' . $post->picture->link)}}" style="max-width:100%;"/>
+                              @endif
+                            </div>
+                          </div>
                           {{-- Images --}}
                           <div class="form-group{{ $errors->has('picture') ? ' has-error' : '' }}">
                               <label for="picture" class="col-md-4 control-label">Image</label>
@@ -178,12 +238,12 @@
                               <div class="col-md-6">
                                   <input style="padding-top: 0.6rem;" id="picture" type="file" name="picture" value="{{old('picture')}}">
                               </div>
-                              @if ($errors->has('picture'))
-                                  <span class="help-block text-center">
-                                      <strong>{{ $errors->first('picture') }}</strong>
-                                  </span>
-                              @endif
                           </div>
+                          @if ($errors->has('picture'))
+                              <span class="help-block text-center">
+                                  <strong>{{ $errors->first('picture') }}</strong>
+                              </span>
+                          @endif
 
                           {{-- Submit --}}
                           <div class="form-group">

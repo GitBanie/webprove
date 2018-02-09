@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PostCreateRequest;
 use App\Post;
 use App\Category;
+use Storage;
 
 class PostController extends Controller
 {
@@ -17,6 +18,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(10);
+        
         return view('back.post.index', compact('posts'));
     }
 
@@ -28,6 +30,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::pluck('name', 'id')->all();
+
         return view('back.post.create', compact('categories'));
     }
 
@@ -52,6 +55,7 @@ class PostController extends Controller
             'title' => $request->title_image?? $request->title
           ]);
         }
+
         return redirect()->route('post.index')->with('message', 'Success');
     }
 
@@ -64,6 +68,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
+
         return view('back.post.show', compact('post'));
     }
 
@@ -75,7 +80,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        $categories = Category::pluck('name', 'id')->all();
+
+        return view('back.post.edit', compact('post', 'categories'));
     }
 
     /**
@@ -85,9 +93,36 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostCreateRequest $request, $id)
     {
-        //
+      $post = Post::find($id);
+      $post->update($request->all());
+
+      #Traitement d'image
+
+      //Suppression
+      if(isset($post->picture)){
+        if(!empty($request->file('picture'))){
+          Storage::disk('local')->delete($post->picture->link); //Supprime physiquement l'image
+          $post->picture()->delete(); //Supprime l'information en bdd
+        }
+      }
+
+      //Ajout
+      $img = $request->file('picture');
+      if (!empty($img)) {
+
+          //Methode store retourne un link hash sécurisé
+          $link = $img->store('images');
+
+          $post->picture()->create([
+          'link' => $link,
+          'title' => $request->title_image?? $request->title
+        ]);
+      }
+
+      return redirect()->route('post.index')->with('message', 'Success');
+
     }
 
     /**
@@ -98,6 +133,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+      //Recuperation de l'id
+      $post = Post::find($id);
+      //Suppression de l'image si elle existe
+      if(isset($post->picture)){
+        Storage::disk('local')->delete($post->picture->link); //Supprimer physiquement l'image
+        $post->picture()->delete(); //Supprimer l'information en bdd
+      }
+
+      $post->delete();
+
+      return redirect()->route('post.index')->with('message', 'Success');
     }
 }

@@ -29,9 +29,15 @@
                         <td>{{$post->post_type}}</td>
                         <td>{{$post->started_at}} | {{$post->ended_at}}</td>
                         <td>{{$post->status}}</td>
-                        <td align="center"><a href=""><i class="fa fa-edit text-muted"></i></a></td>
+                        <td align="center"><a href="{{route('post.edit', $post->id)}}"><i class="fa fa-edit text-muted"></i></a></td>
                         <td align="center"><a href="{{route('post.show', $post->id)}}"><i class="fa fa-eye"></i></a></td>
-                        <td align="center"><a href=""><i class="fa fa-trash text-danger"></i></a></td>
+                        <td align="center">
+                          <form id='my_form' class="delete" action="{{route('post.destroy', $post->id)}}" method="post">
+                          {{ csrf_field() }}
+                          {{ method_field('DELETE') }}
+                          <a class="link_delete" style="cursor:pointer">
+                          <i class="fa fa-trash text-danger"></i></a>
+                        </td>
                     </tr>
                   @empty
                     <p>Aucun Post</p>
