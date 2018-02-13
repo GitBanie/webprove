@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Webprove Admin</title>
 
@@ -73,7 +74,7 @@
     <script src="{{asset('vendor/date-picker/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('vendor/date-picker/locales/bootstrap-datetimepicker.fr.js')}}" charset="UTF-8"></script>
     <script src="{{asset('vendor/date-picker/custom.js')}}"></script>
-    <script src="{{asset('js/confirm.js')}}"></script>
+    <script src="{{asset('js/custom.js')}}"></script>
 
 </body>
 

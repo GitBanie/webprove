@@ -18,7 +18,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(10);
-        
+
         return view('back.post.index', compact('posts'));
     }
 
@@ -133,16 +133,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-      //Recuperation de l'id
-      $post = Post::find($id);
-      //Suppression de l'image si elle existe
-      if(isset($post->picture)){
-        Storage::disk('local')->delete($post->picture->link); //Supprimer physiquement l'image
-        $post->picture()->delete(); //Supprimer l'information en bdd
-      }
-
-      $post->delete();
-
-      return redirect()->route('post.index')->with('message', 'Success');
+      // //Recuperation de l'id
+      // $post = Post::find($id);
+      // //Suppression de l'image si elle existe
+      // if(isset($post->picture)){
+      //   Storage::disk('local')->delete($post->picture->link); //Supprimer physiquement l'image
+      //   $post->picture()->delete(); //Supprimer l'information en bdd
+      // }
+      //
+      // $post->delete();
+      //
+      // return redirect()->route('post.index')->with('message', 'Success');
     }
 }

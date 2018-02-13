@@ -29,3 +29,16 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
+.option_link .pagination {
+  margin: 0;
+}
+
+.options{
+  margin-top:22px;
+  margin-bottom:22px;
+}
+
+.option{
+  display: none;
+}

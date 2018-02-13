@@ -36,4 +36,12 @@ Route::post('/contact',  'ContactController@mailToAdmin')->name('contactAdmin');
 
 Route::any('/search', "FrontController@search")->name('search');
 
+//Resource
+
 Route::resource('admin/post', 'PostController')->middleware('auth');
+
+//Destroy
+
+Route::post('admin/del', 'DestroyController@del')->name('del');
+
+Route::delete('admin/destroy/{id}', 'DestroyController@destroy')->name('destroy');

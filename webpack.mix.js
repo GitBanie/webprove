@@ -12,7 +12,7 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-  .js('resources/assets/js/confirm.js', 'public/js') //Ajout d'un fichier à compiler
+  .js('resources/assets/js/custom.js', 'public/js') //Ajout d'un fichier à compiler
   .sass('resources/assets/sass/app.scss', 'public/css')
   .browserSync({
     proxy: {
