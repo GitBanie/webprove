@@ -1,4 +1,4 @@
-<p align="center">Webprove</p>
+<p align="center"><h1>Webprove</h1></p>
 
 ## About Webprove
 
