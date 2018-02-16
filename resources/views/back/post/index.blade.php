@@ -9,6 +9,9 @@
         <div class="col-md-6">
           <a class="btn btn-primary" href="{{route('post.create')}}">Ajouter un stage/formation</a>
         </div>
+        <div class="form-group col-md-offset-4 col-md-2">
+          <input type="text" class="form-control" placeholder="search" id="search" name="search"></input>
+        </div>
       </div>
       <div class="row options">
         @if ($posts->total() > 10)
@@ -57,7 +60,9 @@
                   @endforelse
               </tbody>
           </table>
-          {{$posts->links()}}
+          <div class="option_link">
+            {{$posts->links()}}
+          </div>
       </div>
   </div>
 </div>

@@ -45,3 +45,7 @@ Route::resource('admin/post', 'PostController')->middleware('auth');
 Route::post('admin/del', 'DestroyController@del')->name('del');
 
 Route::delete('admin/destroy/{id}', 'DestroyController@destroy')->name('destroy');
+
+//Search back
+
+Route::get('admin/livesearch', 'searchController@liveSearch')->name('livesearch');

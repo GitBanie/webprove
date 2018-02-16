@@ -73,6 +73,12 @@
     {{-- Datetimepicker --}}
     <script src="{{asset('vendor/date-picker/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('vendor/date-picker/locales/bootstrap-datetimepicker.fr.js')}}" charset="UTF-8"></script>
+    <script>
+     window._config = {
+        'route_post_edit' :"{{url('admin/post')}}",
+        'route_post_show' :"{{url('admin/post')}}"
+      }
+    </script>
     <script src="{{asset('vendor/date-picker/custom.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
 
